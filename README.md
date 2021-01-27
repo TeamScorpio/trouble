@@ -31,7 +31,7 @@ Trouble is extended `RuntimeException`, so we don't need to mark throws on the m
 ```java
 MyTroubleEnum.TROUBLE_ONE.printStackTrace()
 ```
-It will print like
+It will print 
 ```
 
 cn.teamscorpio.trouble.Trouble: trouble 1
