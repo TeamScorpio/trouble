@@ -1,5 +1,5 @@
 # Trouble
-Trouble is a class library that can use enumeration to manage business exceptions.
+Trouble is a java library that can use enumeration to manage business exceptions.
 
 ## Specification By Examples
 
@@ -86,6 +86,7 @@ public enum MyPrefixedTroubleEnum implements TroubleEnum {
 
 }
 ```
+The `getCode` method will equal `100001`.
 
 
 
