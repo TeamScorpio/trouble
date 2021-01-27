@@ -37,4 +37,9 @@ public class TestTrouble {
         Assertions.assertEquals("trouble 1", MyTroubleEnum.TROUBLE_ONE.getMessage());
     }
 
+    @Test
+    public void testPrintStackTrace() {
+        MyTroubleEnum.TROUBLE_ONE.causeBy(new IOException("IO Failed")).printStackTrace();
+    }
+
 }
