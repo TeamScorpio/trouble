@@ -86,7 +86,7 @@ public enum MyPrefixedTroubleEnum implements TroubleEnum {
 
 }
 ```
-The `getCode` method will equal `100001`.
+The `getCode` method will return `100001`.
 
 
 
