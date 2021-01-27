@@ -1,18 +1,15 @@
 package cn.teamscorpio.trouble;
 
+import java.io.PrintStream;
+import java.io.PrintWriter;
+
 /**
  * @author TeamScorpio
  * @since 2021/01/01
  */
 public interface TroubleEnum {
 
-    default String getCode() {
-        return TroubleHolder.get(this).getCode();
-    }
 
-    default String getMessage() {
-        return TroubleHolder.get(this).getMessage();
-    }
 
 
     default TroubleEnum causeBy(Throwable cause) {
@@ -28,4 +25,31 @@ public interface TroubleEnum {
     default Trouble get() {
         return TroubleHolder.get(this);
     }
+
+    default String getCode() {
+        return get().getCode();
+    }
+
+    default String getMessage() {
+        return get().getMessage();
+    }
+
+    default Throwable getCause() {
+        return get().getCause();
+    }
+
+    default void printStackTrace() {
+        get().printStackTrace();
+    }
+
+    default void printStackTrace(PrintStream s) {
+        get().printStackTrace(s);
+    }
+
+    default void printStackTrace(PrintWriter s) {
+        get().printStackTrace(s);
+    }
+
+
+
 }
