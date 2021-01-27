@@ -1,5 +1,7 @@
 package cn.teamscorpio.trouble;
 
+import org.springframework.http.HttpStatus;
+
 import java.io.PrintStream;
 import java.io.PrintWriter;
 
@@ -32,6 +34,14 @@ public interface TroubleEnum {
 
     default String getMessage() {
         return get().getMessage();
+    }
+
+    default HttpStatus getHttpStatus() {
+        final HttpStatus status = get().getHttpStatus();
+        if (status == null) {
+            throw new IllegalStateException("This enumeration doesn't support HTTP status, please use @HttpTrouble to support it.");
+        }
+        return status;
     }
 
     default Throwable getCause() {

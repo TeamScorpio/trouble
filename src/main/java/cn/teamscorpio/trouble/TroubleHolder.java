@@ -1,7 +1,9 @@
 package cn.teamscorpio.trouble;
 
+import cn.teamscorpio.trouble.annotation.HttpTrouble;
 import cn.teamscorpio.trouble.annotation.TroubleCodePrefix;
 
+import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -19,10 +21,12 @@ public class TroubleHolder {
             return CODE_MAP.get(object);
         }
         try {
-            Enum<?> codeEnum = (Enum<?>) object;
-            TroubleCodePrefix troubleCodePrefix = object.getClass().getAnnotation(TroubleCodePrefix.class);
+            final Enum<?> codeEnum = (Enum<?>) object;
+            final Class<?> objectClass = object.getClass();
+            final Field field = objectClass.getField(codeEnum.name());
+            TroubleCodePrefix troubleCodePrefix = objectClass.getAnnotation(TroubleCodePrefix.class);
 
-            cn.teamscorpio.trouble.annotation.Trouble trouble = object.getClass().getField(codeEnum.name())
+            cn.teamscorpio.trouble.annotation.Trouble trouble = field
                     .getAnnotation(cn.teamscorpio.trouble.annotation.Trouble.class);
             String code = trouble != null ? trouble.code() : String.valueOf(codeEnum.ordinal());
             String codePrefix = troubleCodePrefix != null ? troubleCodePrefix.value() : "";
@@ -32,6 +36,10 @@ public class TroubleHolder {
                 completeMessage = trouble.message();
             }
             Trouble troubleException = new Trouble(completeCode, completeMessage);
+
+            // http support
+            HttpTrouble httpTrouble = field.isAnnotationPresent(HttpTrouble.class) ? field.getAnnotation(HttpTrouble.class) : objectClass.getAnnotation(HttpTrouble.class);
+            troubleException.setHttpStatus(httpTrouble == null ? null : httpTrouble.status());
             CODE_MAP.put(object, troubleException);
             return troubleException;
         } catch (NoSuchFieldException e) {

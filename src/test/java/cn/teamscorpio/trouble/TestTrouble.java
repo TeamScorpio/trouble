@@ -2,6 +2,7 @@ package cn.teamscorpio.trouble;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
 
 import java.io.IOException;
 
@@ -40,6 +41,18 @@ public class TestTrouble {
     @Test
     public void testPrintStackTrace() {
         MyTroubleEnum.TROUBLE_ONE.causeBy(new IOException("IO Failed")).printStackTrace();
+    }
+
+    @Test
+    public void testNoCode() {
+        Assertions.assertEquals("0", NoCodeTroubleEnum.NO_CODE_TROUBLE.getCode());
+        Assertions.assertEquals("NO_CODE_TROUBLE", NoCodeTroubleEnum.NO_CODE_TROUBLE.getMessage());
+    }
+
+    @Test
+    public void testHttpTrouble() {
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST, HttpTroubleEnum.BAD_REQUEST_TROUBLE.getHttpStatus());
+        Assertions.assertEquals(HttpStatus.BAD_GATEWAY, HttpTroubleEnum.BAD_GATEWAY_TROUBLE.getHttpStatus());
     }
 
 }

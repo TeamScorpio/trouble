@@ -88,6 +88,37 @@ public enum MyPrefixedTroubleEnum implements TroubleEnum {
 ```
 The `getCode` method will return `100001`.
 
+### Default trouble 
+If we don't mark the `@trouble` on enumeration like this,
+```java
+public enum NoCodeTroubleEnum implements TroubleEnum {
+    
+    NO_CODE_TROUBLE;
+    
+}
+```
+the code will be assigned the field's ordinal and the message will be assigned the field's name. 
 
+### HTTP support
+We can get HTTP support through annotation `@HttpTrouble`.
 
+```java
+@HttpTrouble(status = HttpStatus.BAD_REQUEST)
+public enum HttpTroubleEnum implements TroubleEnum {
+
+    @Trouble(code = "0", message = "Bad request trouble")
+    BAD_REQUEST_TROUBLE,
+
+    @HttpTrouble(status = HttpStatus.BAD_GATEWAY)
+    @Trouble(code = "1", message = "Bad gateway trouble")
+    BAD_GATEWAY_TROUBLE;
+
+}
+```
+And we can get http status like this:
+```java
+HttpStatus httpStatus = BAD_REQUEST_TROUBLE.getHttpStatus() 
+```
+
+When both class and field are annotated by `HttpTrouble`, the status is determined by the annotation of the field. 
 
