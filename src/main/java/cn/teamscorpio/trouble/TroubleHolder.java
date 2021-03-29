@@ -35,11 +35,9 @@ public class TroubleHolder {
             if (trouble != null) {
                 completeMessage = trouble.message();
             }
-            Trouble troubleException = new Trouble(completeCode, completeMessage);
-
             // http support
             HttpTrouble httpTrouble = field.isAnnotationPresent(HttpTrouble.class) ? field.getAnnotation(HttpTrouble.class) : objectClass.getAnnotation(HttpTrouble.class);
-            troubleException.setHttpStatus(httpTrouble == null ? null : httpTrouble.status());
+            Trouble troubleException = new Trouble(httpTrouble == null ? null : httpTrouble.status(), completeCode, completeMessage);
             CODE_MAP.put(object, troubleException);
             return troubleException;
         } catch (NoSuchFieldException e) {

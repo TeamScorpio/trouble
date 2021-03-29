@@ -11,33 +11,30 @@ import java.io.PrintWriter;
  */
 public interface TroubleEnum {
 
-
-
-
-    default TroubleEnum causeBy(Throwable cause) {
-        Trouble trouble = TroubleHolder.get(this);
+    default Trouble causeBy(Throwable cause) {
+        Trouble trouble = (Trouble) TroubleHolder.get(this).clone();
         trouble.initCause(cause);
-        return this;
+        return trouble;
     }
 
     default void thrown() {
-        throw TroubleHolder.get(this);
+        TroubleHolder.get(this).thrown();
     }
 
-    default Trouble get() {
+    default Trouble getTrouble() {
         return TroubleHolder.get(this);
     }
 
     default String getCode() {
-        return get().getCode();
+        return getTrouble().getCode();
     }
 
     default String getMessage() {
-        return get().getMessage();
+        return getTrouble().getMessage();
     }
 
     default HttpStatus getHttpStatus() {
-        final HttpStatus status = get().getHttpStatus();
+        final HttpStatus status = getTrouble().getHttpStatus();
         if (status == null) {
             throw new IllegalStateException("This enumeration doesn't support HTTP status, please use @HttpTrouble to support it.");
         }
@@ -45,19 +42,19 @@ public interface TroubleEnum {
     }
 
     default Throwable getCause() {
-        return get().getCause();
+        return getTrouble().getCause();
     }
 
     default void printStackTrace() {
-        get().printStackTrace();
+        getTrouble().printStackTrace();
     }
 
     default void printStackTrace(PrintStream s) {
-        get().printStackTrace(s);
+        getTrouble().printStackTrace(s);
     }
 
     default void printStackTrace(PrintWriter s) {
-        get().printStackTrace(s);
+        getTrouble().printStackTrace(s);
     }
 
 

@@ -19,7 +19,7 @@ public class TestTrouble {
 
     @Test
     public void testCauseBy() {
-        final Throwable io_failed = MyTroubleEnum.TROUBLE_ONE.causeBy(new IOException("IO Failed")).get().getCause();
+        final Throwable io_failed = MyTroubleEnum.TROUBLE_ONE.causeBy(new IOException("IO Failed")).getCause();
         Assertions.assertTrue(io_failed instanceof IOException);
     }
 

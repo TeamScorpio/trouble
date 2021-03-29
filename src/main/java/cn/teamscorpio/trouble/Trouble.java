@@ -6,15 +6,16 @@ import org.springframework.http.HttpStatus;
  * @author TeamScorpio
  * @since 2021/01/01
  */
-public class Trouble extends RuntimeException {
+public class Trouble extends RuntimeException implements Cloneable {
 
-    private String code;
+    private final String code;
 
-    private HttpStatus httpStatus;
+    private final HttpStatus httpStatus;
 
-    public Trouble(String code, String message) {
+    public Trouble(HttpStatus httpStatus, String code, String message) {
         super(message);
         this.code = code;
+        this.httpStatus = httpStatus;
     }
 
 
@@ -26,7 +27,13 @@ public class Trouble extends RuntimeException {
         return httpStatus;
     }
 
-    public void setHttpStatus(HttpStatus httpStatus) {
-        this.httpStatus = httpStatus;
+
+    public void thrown() {
+        throw this;
+    }
+
+    @Override
+    protected Object clone() {
+        return new Trouble(httpStatus, code, getMessage());
     }
 }
